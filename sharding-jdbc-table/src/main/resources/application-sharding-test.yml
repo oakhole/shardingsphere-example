@@ -1,0 +1,24 @@
+spring:
+  shardingsphere:
+    datasource:
+      names: ds
+      ds:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://localhost:3306/testt?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+        username: root
+        password: root
+    props:
+      sql:
+        show: true
+    sharding:
+      tables:
+        user:
+          actual-data-nodes: ds.user_$->{0..3}
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+          table-strategy:
+            inline:
+              sharding-column: id
+              algorithm-expression: user_$->{id % 4}

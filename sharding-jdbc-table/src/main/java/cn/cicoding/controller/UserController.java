@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+
 @RestController
 public class UserController {
 
@@ -22,9 +26,9 @@ public class UserController {
     public Object add() {
         for (long i = 0; i < 100; i++) {
             User user = new User();
-            user.setId(i);
             user.setCity("深圳");
-            user.setName("李四"+ i);
+            user.setName("李四" + i);
+            user.setCreateTime(Date.from(LocalDateTime.now().minusMonths((long) (Math.random() * 4)).atZone(ZoneId.systemDefault()).toInstant()));
             userService.add(user);
         }
         return "success";

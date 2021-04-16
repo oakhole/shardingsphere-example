@@ -1,0 +1,29 @@
+spring:
+  shardingsphere:
+    datasource:
+      names: ds
+      ds:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://localhost:3306/testt?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: root
+    props:
+      sql:
+        show: true
+    sharding:
+      binding-tables: user
+      tables:
+        user:
+          actual-data-nodes: ds.user_$->{202101..202104}
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+            props:
+              worker:
+                id: 123
+          table-strategy:
+            standard:
+              sharding-column: create_time
+              precise-algorithm-class-name: cn.cicoding.sharding.algorithm.DateTimeRangeShardingAlgorithm
+              range-algorithm-class-name: cn.cicoding.sharding.algorithm.DateTimeRangeShardingAlgorithm

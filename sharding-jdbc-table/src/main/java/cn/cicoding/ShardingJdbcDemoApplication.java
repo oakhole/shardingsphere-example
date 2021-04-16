@@ -12,5 +12,4 @@ public class ShardingJdbcDemoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ShardingJdbcDemoApplication.class, args);
 	}
-
 }
